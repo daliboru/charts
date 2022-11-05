@@ -1,0 +1,83 @@
+.App {
+  margin: 0 1rem;
+  text-align: center;
+
+  .content {
+    display: grid;
+    gap: 1rem;
+
+    &__row {
+      display: grid;
+      justify-content: center;
+    }
+
+    &__row-range {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .inputContainer {
+      display: grid;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .typeBtn {
+      background-color: blueviolet;
+    }
+
+    .searchBtn {
+      background-color: rgb(187, 177, 177);
+
+      &:hover {
+        opacity: 0.8;
+      }
+
+      &:focus {
+        opacity: 1;
+      }
+    }
+
+    .chart {
+      overflow-x: scroll;
+    }
+  }
+}
+
+@media (min-width: 550px) {
+  .App {
+    margin: 0 10rem;
+    text-align: start;
+
+    .content {
+      padding: 1rem 0rem;
+
+      &__row {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        margin: 1rem 0;
+      }
+
+      &__row-range {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        justify-content: flex-start;
+      }
+
+      .inputContainer {
+        display: inline-block;
+        margin: 0;
+      }
+      .searchBtn {
+        margin-left: 0.5rem;
+      }
+      .chart {
+        overflow-x: hidden;
+      }
+    }
+  }
+}
