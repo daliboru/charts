@@ -8,8 +8,6 @@ const apiClient = axios.create({
   baseURL: "http://api.marketstack.com/v1",
   params: {
     access_key: process.env.REACT_APP_API_KEY,
-    date_from: aYearAgo.toISOString().split("T")[0],
-    limit: 365,
   },
 });
 
@@ -19,6 +17,8 @@ const getStock = async (stockCode: string) => {
     {
       params: {
         symbols: stockCode,
+        date_from: aYearAgo.toISOString().split("T")[0],
+        limit: 365,
       },
     }
   );
