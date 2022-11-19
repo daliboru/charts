@@ -16,15 +16,7 @@ export default function Chart({
   stockCode: string;
 }) {
   const [range, setRange] = useState(Range.WEEK);
-  const [chartData, setChartData] =
-    useState<{ label: string; value: number }[]>();
   const [chartConfigs, setChartConfigs] = useState({});
-
-  useEffect(() => {
-    if (data) {
-      setChartData(getDataInDateRange(range, data));
-    }
-  }, [data, range]);
 
   useEffect(() => {
     setChartConfigs({
@@ -40,10 +32,10 @@ export default function Chart({
           yAxisName: "Price (in USD)",
           theme: "fusion",
         },
-        data: chartData,
+        data: getDataInDateRange(range, data),
       },
     });
-  }, [chartData, stockCode]);
+  }, [range, data, stockCode]);
 
   return (
     <>
@@ -77,7 +69,10 @@ export default function Chart({
   );
 }
 
-function getDataInDateRange(range: string, data: IStockData[]) {
+function getDataInDateRange(
+  range: "week" | "month" | "year",
+  data: IStockData[]
+) {
   return data
     .map((item) => {
       if (isDateInRange(range, item.date))
@@ -88,25 +83,27 @@ function getDataInDateRange(range: string, data: IStockData[]) {
       return null;
     })
     .filter((item) => item)
-    .reverse() as { label: string; value: number }[];
+    .reverse();
 }
 
-function isDateInRange(range: string, date: string) {
-  let endDate = new Date();
+function isDateInRange(
+  range: "week" | "month" | "year",
+  date: string
+): boolean {
+  let today = new Date();
   let targetDate = new Date(date);
-  if (range === "week") {
-    let sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-    return targetDate > sevenDaysAgo && targetDate < endDate;
-  }
-  if (range === "month") {
-    let aMonthAgo = new Date();
-    aMonthAgo.setMonth(aMonthAgo.getMonth() - 1);
-    return targetDate > aMonthAgo && targetDate < endDate;
-  }
-  if (range === "year") {
-    let aYearAgo = new Date();
-    aYearAgo.setFullYear(aYearAgo.getFullYear() - 1);
-    return targetDate > aYearAgo && targetDate < endDate;
+
+  switch (range) {
+    case "week":
+      today.setDate(today.getDate() - 7);
+      return targetDate > today;
+    case "month":
+      today.setMonth(today.getMonth() - 1);
+      return targetDate > today;
+    case "year":
+      today.setFullYear(today.getFullYear() - 1);
+      return targetDate > today;
+    default:
+      return false;
   }
 }
