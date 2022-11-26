@@ -8,11 +8,11 @@ export default function Dashboard() {
     e.preventDefault();
 
     const form = new FormData(e.currentTarget);
-    const formValue = Object.fromEntries(form.entries()) as {
-      stockCode: string;
-    };
+    const formValues = Object.fromEntries(form.entries());
 
-    setStockCode(formValue.stockCode);
+    setStockCode(formValues.stockCode.toString());
+
+    e.currentTarget.reset();
   };
 
   return (
